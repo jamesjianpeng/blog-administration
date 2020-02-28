@@ -1,0 +1,30 @@
+.progress-contianer {
+  position: relative;
+  width: 100%;
+}
+.standard {
+  position: absolute;
+  width: 2px;
+  background: #12c2c2;
+  height: 14px;
+  top: -4px;
+  color: #fff;
+  transition: .3s ease-in;
+}
+.progress {
+  height: 6px;
+  overflow: hidden;
+  width: 100%;
+  box-shadow: 0 0 0 1px #12c2c2;
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  color: #12c2c2;
+}
+
+.progress-inner {
+  background: #12c2c2;
+  color: #12c2c2;
+  height: 100%;
+  transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}

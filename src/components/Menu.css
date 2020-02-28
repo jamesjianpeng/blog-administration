@@ -1,0 +1,13 @@
+.ant-menu-inline > .ant-menu-item {
+  height: 36px;
+  line-height: 36px;
+}
+.ant-menu-sub.ant-menu-inline > .ant-menu-item {
+  height: 36px;
+  line-height: 36px;
+}
+.ant-menu-vertical .ant-menu-item,
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+  font-size: 14px;
+}

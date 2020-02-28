@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+#root {
+  height: 100%;
+  background: rgba(240,242,245,1);
+}
+
+
+.ant-card-body {
+  padding: 20px 20px;
+}
+.ant-card-head  {
+  min-height: auto;
+}
+.ant-card-head-title {
+  padding: 10px 0 10px;
+}
+.ant-list-item {
+  padding: 6px 0 10px;
+}

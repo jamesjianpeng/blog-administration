@@ -1,0 +1,54 @@
+.base-table-container {
+  background: #fff;
+  padding: 20px;
+}
+.base-table-search-contianer {
+  margin-bottom: 20px;
+  padding-left: 10px;
+}
+.base-table-button-container {
+  margin-bottom: 20px;
+}
+.base-table-button {
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  padding: 0 12px;
+}
+.base-table-button-center {
+  margin:  0 6px;
+}
+
+.base-table-search-text {
+  font-size: 12px;
+  color: #343434;
+}
+
+base-table-search {
+  width: 320px;
+}
+
+.base-table-date {
+  margin-left: 20px;
+}
+.base-table-button_no-padding {
+  padding: 0 10px 0;
+}
+
+.base-table_row-state {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #eee;
+}
+
+.base-table-time-line {
+  margin: 0 4px;
+}
+
+.base-table-time_time-picker .ant-time-picker-input {
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+}

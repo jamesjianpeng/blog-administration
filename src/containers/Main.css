@@ -1,0 +1,101 @@
+.logo {
+  color: #fff;
+  width: 230px;
+  font-size: 0;
+  height: 60px;
+  padding-left: 24px;
+  justify-content: flex-start;
+}
+
+.logo-common {
+  display: flex;
+  align-items: center;
+  background: #002140;
+  transition: ease .3s;
+}
+.logo-common-text {
+  transition: ease .2s;
+}
+.logo-text {
+  font-size: 18px;
+  padding-left: 10px;
+  display: 1;
+}
+
+.logo-small {
+  width: 80px;
+  height: 60px;
+  margin: 0;
+  justify-content: center;
+}
+.logo-img {
+  height: 38px;
+}
+
+.logo-small-text {
+  font-size: 0;
+  padding-left: 0;
+  display: 0;
+}
+
+.logo-small-img {
+  height: 40px;
+}
+.header {
+  position: fixed;
+  top: 0;
+  left: 254px;
+}
+
+.fixed-contianer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6opx;
+  z-index: 9;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: #fff;
+}
+
+.header-contianer {
+
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  height: 60px;
+  line-height: 60px;
+  top: 0;
+  right: 0;
+  padding-right: 10px;
+}
+
+.sider-contianer {
+  height: '100%';
+  overflow: 'auto';
+}
+
+.breadcrumb-contianer {
+  background: #fff;
+  height: 48px;
+  line-height: 48px;
+  padding-left: 20px;
+  display: inline-block;
+}
+
+.header-user_text {
+  font-size: 14px;
+  color: #000000;
+  margin-left: 4px;
+}
+
+.header-user_bell {
+  margin-left: 14px;
+  margin-right: 14px;
+}
