@@ -27,7 +27,7 @@
   "scripts": {
     "start:rewired": "REACT_APP_SECRET_CODE=beta react-app-rewired start --scripts-version react-scripts-ts",
     "start": "REACT_APP_SECRET_CODE=beta react-scripts-ts start",
-    "build": "GENERATE_SOURCEMAP=false REACT_APP_SECRET_CODE=beta react-scripts-ts build --scripts-version react-scripts-ts",
+    "build": "GENERATE_SOURCEMAP=false REACT_APP_SECRET_CODE=prod react-scripts-ts build --scripts-version react-scripts-ts",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },

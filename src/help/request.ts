@@ -10,7 +10,7 @@ export const isRealProd = env === 'realProd'
 const urlConfig = {
   // mock
   'beta':  'http://localhost:3070',
-  'prod': 'http://www.pengjiandry.com:5050'
+  'prod': 'http://www.pengjiandry.com:7080'
 }
 
 const commonHeaders = {
