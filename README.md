@@ -1,3 +1,5 @@
+> jamesjianpeng@gmail.com
+
 ## 准备工作
 ```
 npm i
