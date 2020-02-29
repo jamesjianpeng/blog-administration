@@ -16,3 +16,4 @@ npm run start
 
 ## 技术架构
 - typescript react mobx axios antd
+- md编辑器 react-markdown-editor-lite
