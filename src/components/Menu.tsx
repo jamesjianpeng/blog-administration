@@ -29,7 +29,7 @@ interface IProps {
   collapsed: boolean
 }
 
-const menuConfig: IMenu[] = [
+export const menuConfig: IMenu[] = [
   {
     path: '/article',
     title: '文章管理',
@@ -43,6 +43,11 @@ const menuConfig: IMenu[] = [
       {
         path: '/article-edit',
         title: '文章编辑',
+        version: 0,
+      },
+      {
+        path: '/article-detail',
+        title: '文章详情',
         version: 0,
       },
     ],

@@ -1,13 +1,5 @@
 import { observable, action } from 'mobx'
-
-export interface IArticleItem {
-  title: string // 文章标题
-  post: string // 文章封面
-  content: string // 文章内容
-  tag: string[] // 文章标签
-  createTime: string // 文章创建时间 YYYY-MM-DD HH:mm:ss
-  updateTime: string // 文章更新时间 YYYY-MM-DD HH:mm:ss
-}
+import { IArticleItem } from 'src/interface'
 
 const  mockData: IArticleItem =  {
   title: 'title', // 文章标题
@@ -34,17 +26,22 @@ export default class ArticleStore {
     public step: number = 0
 
     @action
-    public getList() {
+    public getList = () => {
       this.list = mockList
     }
 
     @action
-    public getData() {
+    public getData = () => {
       this.data = mockData
     }
 
     @action
-    public updateStep(step: number) {
+    public setData = (data: IArticleItem) => {
+      this.data = data
+    }
+
+    @action
+    public setStep = (step: number) => {
       this.step = step
     }
 }

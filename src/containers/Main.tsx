@@ -10,12 +10,13 @@ import { getMenuList } from 'src/help/main'
 import { BreadcrumbIndex } from 'src/components/Breadcrumb'
 import { MenuIndex, IMenu } from 'src/components/Menu'
 import Watermark from 'src/components/Watermark'
-
+import { menuConfig } from 'src/components/Menu'
 import './Main.css'
 
 const { Sider, Content, Header } = Layout;
 const ArticleEdit = lazy(() => import('src/views/Article/ArticleEdit'))
 const ArticleList = lazy(() => import('src/views/Article/ArticleList'))
+const ArticleDetail = lazy(() => import('src/views/Article/ArticleDetail'))
 
 interface IStates {
   collapsed: boolean
@@ -42,6 +43,10 @@ class MainRouter extends React.PureComponent<any, any> {
           <Route
             path="/article-edit"
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleEdit {...props} /></Suspense>)}
+          />
+          <Route
+            path="/article-detail"
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleDetail {...props} /></Suspense>)}
           />
           <Route exact={true} path="/" component={(props: any) => <Index {...props} />} />
         </Switch>
@@ -89,7 +94,7 @@ class Main extends React.PureComponent<IProps, IStates> {
                 <Button type="link" onClick={this.toggleCollapsed} style={{ paddingLeft: '20px' }}>
                   <Icon style={{ color: '#333' }} type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
                 </Button>
-                {['/', '/dashboard'].indexOf(this.props.location.pathname) > -1 ? '' : <BreadcrumbIndex path={this.props.location.pathname} menu={this.state.menu} />}
+                {['/', '/dashboard'].indexOf(this.props.location.pathname) > -1 ? '' : <BreadcrumbIndex path={this.props.location.pathname} menu={menuConfig} />}
                 <div className="user-info">
                   <Icon style={{ fontSize: '16px' }} type="search" />
                   <Icon className="header-user_bell" type="bell" />
