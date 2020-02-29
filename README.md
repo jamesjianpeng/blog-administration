@@ -6,3 +6,6 @@ npm i
 ```
 npm run start
 ```
+
+## 部署
+监听 github webhook push 事件 自动部署
