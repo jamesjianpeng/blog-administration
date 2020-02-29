@@ -23,7 +23,6 @@
     "react-router-dom": "^5.1.2",
     "react-scripts-ts": "3.1.0"
   },
-  "proxy": "http://www.ljguo.cn:8086",
   "scripts": {
     "start:rewired": "REACT_APP_SECRET_CODE=beta react-app-rewired start --scripts-version react-scripts-ts",
     "start": "REACT_APP_SECRET_CODE=beta react-scripts-ts start",
