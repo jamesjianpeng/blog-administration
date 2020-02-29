@@ -15,5 +15,5 @@ npm run start
 - node/child_process shell 的组合使用
 
 ## 技术架构
-- typescript react mobx axios antd
+- typescript react mobx axios antd react-router
 - md编辑器 react-markdown-editor-lite
