@@ -5,18 +5,21 @@ import { BaseSkeleton } from 'src/components/Skeleton'
 import $ from 'jquery'
 import { Route, Switch } from "react-router-dom";
 import Index from 'src/views/Index'
-import { getMenuList } from 'src/help/main'
+// import { getMenuList } from 'src/help/main'
+import ConfigStore from 'src/store/config'
+import { STORE_CONFIG } from 'src/constants'
+import { observer, inject } from 'mobx-react'
 
 import { BreadcrumbIndex } from 'src/components/Breadcrumb'
 import { MenuIndex, IMenu } from 'src/components/Menu'
 import Watermark from 'src/components/Watermark'
-import { menuConfig } from 'src/components/Menu'
 import './Main.css'
 
 const { Sider, Content, Header } = Layout;
 const ArticleEdit = lazy(() => import('src/views/Article/ArticleEdit'))
 const ArticleList = lazy(() => import('src/views/Article/ArticleList'))
 const ArticleDetail = lazy(() => import('src/views/Article/ArticleDetail'))
+const TagList = lazy(() => import('src/views/Tag/TagList'))
 
 interface IStates {
   collapsed: boolean
@@ -28,6 +31,7 @@ interface IStates {
 interface IProps {
   history: History
   location: Location
+  [STORE_CONFIG]: ConfigStore
 }
 
 class MainRouter extends React.PureComponent<any, any> {
@@ -41,12 +45,16 @@ class MainRouter extends React.PureComponent<any, any> {
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleList {...props} /></Suspense>)}
           />
           <Route
-            path="/article-edit"
+            path={['/article-edit/:_id', '/article-edit']}
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleEdit {...props} /></Suspense>)}
           />
           <Route
-            path="/article-detail"
+            path={['/article-detail/:_id', '/article-detail']}
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleDetail {...props} /></Suspense>)}
+          />
+          <Route
+            path={['/tags']}
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><TagList {...props} /></Suspense>)}
           />
           <Route exact={true} path="/" component={(props: any) => <Index {...props} />} />
         </Switch>
@@ -54,8 +62,13 @@ class MainRouter extends React.PureComponent<any, any> {
     )
   }
 }
-
+@inject(STORE_CONFIG)
+@observer
 class Main extends React.PureComponent<IProps, IStates> {
+  get storeConfig() {
+    return this.props[STORE_CONFIG]
+  }
+
   constructor(props: any) {
     super(props)
     this.state = {
@@ -64,14 +77,16 @@ class Main extends React.PureComponent<IProps, IStates> {
       openKey: [],
       selectedKey: []
     }
-    getMenuList({ role: 'xx' }).then((res: any) => {
-      this.setState({
-        menu: res.data
-      })
-      // getProfessionalList()
-    })
+    // getMenuList({ role: 'xx' }).then((res: any) => {
+    //   this.setState({
+    //     menu: res.data
+    //   })
+    //   // getProfessionalList()
+    // })
   }
-
+  public componentDidMount() {
+    this.storeConfig.getMenus()
+  }
   public componentWillReceiveProps(nextProps: IProps) {
     if (this.props.location !== nextProps.location) {
       $('#main-container_srcoll-top').animate({ scrollTop: 0 }, 100);
@@ -86,7 +101,7 @@ class Main extends React.PureComponent<IProps, IStates> {
 
         <Layout style={{ height: '100%' }}>
           <Sider width="230px" className="sider-container" collapsed={this.state.collapsed}>
-            <MenuIndex path={this.props.location.pathname} menu={this.state.menu} collapsed={this.state.collapsed} history={this.props.history} location={this.props.location} />
+            <MenuIndex path={this.props.location.pathname} menu={ this.storeConfig.menus } collapsed={this.state.collapsed} history={this.props.history} location={this.props.location} />
           </Sider>
           <Layout id="main-container_srcoll-top">
             <Header style={{ background: '#fff' }}>
@@ -94,7 +109,7 @@ class Main extends React.PureComponent<IProps, IStates> {
                 <Button type="link" onClick={this.toggleCollapsed} style={{ paddingLeft: '20px' }}>
                   <Icon style={{ color: '#333' }} type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
                 </Button>
-                {['/', '/dashboard'].indexOf(this.props.location.pathname) > -1 ? '' : <BreadcrumbIndex path={this.props.location.pathname} menu={menuConfig} />}
+                {['/', '/dashboard'].indexOf(this.props.location.pathname) > -1 ? '' : <BreadcrumbIndex path={this.props.location.pathname} menu={this.storeConfig.menus} />}
                 <div className="user-info">
                   <Icon style={{ fontSize: '16px' }} type="search" />
                   <Icon className="header-user_bell" type="bell" />

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Form, Input, Button, Select } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form'
-import { IArticleProps as IProps } from 'src/interface'
+import { IArticleProps, IConfig } from 'src/interface'
 const { Option } = Select
 
+interface  IProps extends IArticleProps {
+  tags: IConfig[]
+}
 class Meta extends React.Component<IProps & FormComponentProps, any> {
   get form () {
     return this.props.form
@@ -28,8 +31,9 @@ class Meta extends React.Component<IProps & FormComponentProps, any> {
               placeholder="请选择标签"
               mode="multiple"
             >
-              <Option value="JavaScript">JavaScript</Option>
-              <Option value="Css">Css</Option>
+              {
+                this.props.tags.map((it: IConfig) => <Option key={ it.value } value={it.value}>{ it.text }</Option>)
+              }
             </Select>,
           )}
         </Form.Item>

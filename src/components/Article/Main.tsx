@@ -8,12 +8,13 @@ interface IState {
 }
 export default class Main extends React.PureComponent<IProps, IState> {
   public render() {
+    console.log(this.props.data)
     return (
       <div>
           <div>
             <Edit
-              data={ "" }
-              onFinsh={ (html: string, text: string) => { console.log(html, text) } }
+              data={ this.props.data }
+              onFinsh={ this.changeEdit }
             />
           </div>
           <div className="m-t-20">
@@ -21,13 +22,18 @@ export default class Main extends React.PureComponent<IProps, IState> {
               上一步
             </Button>
             <Button className="m-l-20" type="primary" onClick={ this.next }>
-              下一步
+              提交
             </Button>
           </div>
       </div>
     )
   }
 
+  private changeEdit = (html: string, text: string) => {
+    if (this.props.onFinish) {
+      this.props.onFinish({html, text}, 'gono')
+    }
+  }
   private prev = () => {
     if (this.props.onFinish) {
       this.props.onFinish(this.props.data, 'prev')
@@ -36,7 +42,7 @@ export default class Main extends React.PureComponent<IProps, IState> {
 
   private next = () => {
     if (this.props.onFinish) {
-      this.props.onFinish(this.props.data, 'next')
+      this.props.onFinish(this.props.data, 'done')
     }
   }
 }

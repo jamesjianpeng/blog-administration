@@ -5,7 +5,7 @@ import { requestPost, requestGet, requestDelete  } from 'src/help/request'
 export type IArticles = IResPage<IArticleItem[]>
 export type IArticle = IRes<IArticleItem>
 
-export default class ArticleStore {
+export default class TagStore {
     @observable
     public data: IArticleItem = {} as IArticleItem
 
@@ -17,21 +17,21 @@ export default class ArticleStore {
 
     @action
     public getList = (params?: IParamPage) => {
-      return  requestGet('/api/v1/get/articles', params).then((res: IRes<IArticles>) => {
+      return  requestGet('/api/v1/get/tags', params).then((res: IRes<IArticles>) => {
         this.list = res.data
       })
     }
 
     @action
     public getData = (_id: string) => {
-      return  requestGet('/api/v1/get/article/' + _id).then((res: IArticle) => {
+      return  requestGet('/api/v1/get/tag/' + _id).then((res: IArticle) => {
         this.data = res.data
       })
     }
 
     @action
     public deleteData = (_id: string) => {
-      return requestDelete('/api/v1/delete/article/' + _id, {}, true)
+      return requestDelete('/api/v1/delete/tag/' + _id, {}, true)
     }
 
     @action
@@ -41,7 +41,7 @@ export default class ArticleStore {
 
     @action
     public postData = (data: IArticleItem) => {
-      return requestPost('/api/v1/post/article', data)
+      return requestPost('/api/v1/post/tag', data)
     }
 
     @action

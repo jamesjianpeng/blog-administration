@@ -1,10 +1,12 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react'
-import { STORE_ARTICLE } from 'src/constants'
-import { IArticleItem, IArticleOperationType } from 'src/interface'
+import { STORE_ARTICLE, STORE_CONFIG } from 'src/constants'
+import { IArticleItem, IArticleOperationType, IMatch } from 'src/interface'
 import ArticleStore from 'src/store/article'
+import ConfigStore from 'src/store/config'
 import { History, Location } from 'history'
 import 'src/views/Article/articleEdit.css'
+import moment from 'moment';
 
 import Meta from 'src/components/Article/Meta'
 import Main from 'src/components/Article/Main'
@@ -16,10 +18,12 @@ const { Step } = Steps;
 interface IProps {
   history: History
   location: Location
+  match: IMatch<{ _id: string}>
   [STORE_ARTICLE]: ArticleStore
+  [STORE_CONFIG]: ConfigStore
 }
 
-@inject(STORE_ARTICLE)
+@inject(STORE_ARTICLE, STORE_CONFIG)
 @observer
 export default class ArticleEdit extends React.Component<IProps, any> {
 
@@ -27,11 +31,16 @@ export default class ArticleEdit extends React.Component<IProps, any> {
     return this.props[STORE_ARTICLE]
   }
 
+  get storeConfig() {
+    return this.props[STORE_CONFIG]
+  }
+
   public componentDidMount() {
-    setTimeout(() => {
-      this.storeArticle.getData()
-      this.storeArticle.getList()
-    }, 4000)
+    this.storeArticle.setStep(0)
+    if (this.props.match.params._id) {
+      this.storeArticle.getData(this.props.match.params._id)
+    }
+    this.storeConfig.getTags()
   }
 
   public render() {
@@ -45,8 +54,8 @@ export default class ArticleEdit extends React.Component<IProps, any> {
         <div className="article-sub-container">
         {
           [
-            <Meta key={0} data={ this.storeArticle.data } onFinish={ this.getMeta } />,
-            <Main key={1} data={ this.storeArticle.data } onFinish={ this.getMain } />,
+            <Meta key={0} data={ this.storeArticle.data } tags={ this.storeConfig.tags } onFinish={ this.getMeta } />,
+            <Main key={1} data={ this.storeArticle.data.content } onFinish={ this.getMain } />,
             <Done key={2} data={ this.storeArticle.data } onFinish={ this.getDone } lookDetail={ this.lookDetail } />
           ][this.storeArticle.step]
         }
@@ -57,11 +66,23 @@ export default class ArticleEdit extends React.Component<IProps, any> {
 
   private getMeta = (data: any, _type: IArticleOperationType) => {
     this.storeArticle.setStep(this.storeArticle.step + 1)
-    this.storeArticle.setData(data)
+    this.storeArticle.setData({...this.storeArticle.data, ...data})
   }
 
   private getMain = (data: any, type: IArticleOperationType) => {
-    const step: number = type === 'next' ?
+    if (type === 'gono') {
+      this.storeArticle.setData({...this.storeArticle.data, ...{ content: data.text }})
+      return
+    }
+    if (type === 'done') {
+      this.storeArticle.postData({...this.storeArticle.data,
+        ...{
+          content: data,
+          createTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+          updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        }})
+    }
+    const step: number = type === 'done' ?
       this.storeArticle.step + 1 :
       this.storeArticle.step - 1
     this.storeArticle.setStep(step)
@@ -73,7 +94,6 @@ export default class ArticleEdit extends React.Component<IProps, any> {
     this.storeArticle.setData({} as IArticleItem)
   }
   private lookDetail = (url: string) => {
-    console.log(url)
     this.props.history.push(url)
   }
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Modal } from 'antd'
-import { ArticleStore } from 'src/store'
-import { STORE_ARTICLE } from 'src/constants'
+import { TagStore } from 'src/store'
+import { STORE_TAG } from 'src/constants'
 import { IPropsBase, IArticleItem } from 'src/interface'
 import { observer, inject } from 'mobx-react'
-import ArticleTable from 'src/components/Table/ArticleTable'
+import TagTable from 'src/components/Table/TagTable'
 import { changeURL } from 'src/help/util'
 interface IProps extends IPropsBase {
-  [STORE_ARTICLE]: ArticleStore
+  [STORE_TAG]: TagStore
 }
 
 const { confirm } = Modal
@@ -15,21 +15,16 @@ interface IState {
   selectedRowKeys: any
 }
 
-@inject(STORE_ARTICLE)
+@inject(STORE_TAG)
 @observer
-export default class ArticleList extends React.Component<IProps, IState> {
-  get storeArticle() {
-    return this.props[STORE_ARTICLE]
+export default class TagList extends React.Component<IProps, IState> {
+  get storeTag() {
+    return this.props[STORE_TAG]
   }
 
   get data() {
-    return this.storeArticle.list || {}
+    return this.storeTag.list || {}
   }
-
-  get articles() {
-    return (this.storeArticle.list && this.storeArticle.list.data) || []
-  }
-
   constructor(props: IProps) {
     super(props)
     this.state = {
@@ -40,8 +35,9 @@ export default class ArticleList extends React.Component<IProps, IState> {
     this.initList()
   }
   public render() {
-    console.log(this.storeArticle.list)
+    console.log(this.storeTag.list)
     const data = this.data.data
+    console.log(data)
     const rowSelection = {
       selectedRowKeys: this.state.selectedRowKeys,
       onChange: (item: any) => {
@@ -59,7 +55,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
     }
     return (
       <div className="bg-white p-20">
-        <ArticleTable
+        <TagTable
           dataSource={data || []}
           rowSelection={rowSelection}
           pagination={pagination}
@@ -72,7 +68,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
               okText: '确定',
               cancelText: '取消',
               onOk: () => {
-                this.storeArticle.deleteData(row._id).then(() => {
+                this.storeTag.deleteData(row._id).then(() => {
                   this.initList()
                 })
               },
@@ -92,7 +88,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
   }
 
   private initList = () => {
-    this.storeArticle.getList({
+    this.storeTag.getList({
       page: 1,
       pageSize: 10
     })

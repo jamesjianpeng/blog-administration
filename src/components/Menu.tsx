@@ -28,35 +28,11 @@ interface IProps {
   location: Location
   collapsed: boolean
 }
-
-export const menuConfig: IMenu[] = [
-  {
-    path: '/article',
-    title: '文章管理',
-    version: 0,
-    children: [
-      {
-        path: '/article-list',
-        title: '文章列表',
-        version: 0,
-      },
-      {
-        path: '/article-edit',
-        title: '文章编辑',
-        version: 0,
-      },
-      {
-        path: '/article-detail',
-        title: '文章详情',
-        version: 0,
-      },
-    ],
-  }
-]
 interface IState {
   openKey: string[]
-  openKeyTmp: string[]
+  // openKeyTmp: string[]
   selectedKey: string[]
+  sign: string
 }
 
 
@@ -64,32 +40,33 @@ export class MenuIndex extends React.PureComponent<IProps, IState> {
 
   constructor(props: IProps) {
     super(props)
-    const { openKey, selectedKey } = this.initKeys(this.props.path)
     this.state = {
-      openKey,
-      openKeyTmp: openKey,
-      selectedKey
+      openKey: [],
+      selectedKey: [],
+      sign: ''
     }
   }
 
-  public componentDidMount() {
-    this.props.history.listen((e: any) => {
-      const { openKey, selectedKey } = this.initKeys(e.pathname)
-      this.setState({
-        openKey,
-        selectedKey
-      })
-    })
-  }
-
   public componentWillReceiveProps(nextProps: IProps) {
+    const { openKey, selectedKey } = this.initKeys(nextProps.path, nextProps.menu)
+    this.setState({
+      openKey,
+      selectedKey
+    })
+    console.log(this.props)
+    if (!this.state.sign) {
+      this.setState({
+        sign: '1'
+      })
+      return
+    }
     if (nextProps.collapsed) {
       this.setState({
         openKey: []
       })
     } else {
       this.setState({
-        openKey: this.state.openKeyTmp
+        openKey
       })
     }
   }
@@ -147,13 +124,12 @@ export class MenuIndex extends React.PureComponent<IProps, IState> {
     }
   }
   private onTitleClick(it: IMenu) {
-    let { openKey } = this.initKeys(it.path)
+    let { openKey } = this.initKeys(it.path, this.props.menu)
     if (this.state.openKey.indexOf(openKey[0]) > -1) {
       openKey = []
     }
     this.setState({
       openKey: [...openKey],
-      openKeyTmp: [...openKey]
     })
   }
 
@@ -166,18 +142,18 @@ export class MenuIndex extends React.PureComponent<IProps, IState> {
       '人员管理': <img style={style} src={personnel} alt="" />,
       '架构管理': <img style={{ width: '18px', marginRight: '8px' }} src={professional} alt="" />,
       '订单管理': <img style={style} src={order} alt="" />,
-      '琴房管理': <img style={style} src={pianoRoom} alt="" />,
+      '标签管理': <img style={style} src={pianoRoom} alt="" />,
       '文章管理': <img style={style} src={schedule} alt="" />,
       '其他管理': <img style={style} src={dashboard} alt="" />
     }
     return iconNode[icon] || <img style={{ display: 'none' }} />
   }
 
-  private initKeys = (path: string) => {
+  private initKeys = (path: string, menu: any) => {
     let p = path.replace(/^\//, '')
     p = p.includes('/') ? p.split('/')[0] : p
     const paths: string[] = p ? p.split('-') : ['/']
-    const first: IMenu | undefined = menuConfig.find((item: IMenu): boolean => item.path.replace(/^\//, '') === paths[0])
+    const first: IMenu | undefined = menu.find((item: IMenu): boolean => item.path.replace(/^\//, '') === paths[0])
     const k = [first ? first.title : '']
     let s: string[] = []
     if (first && first.children) {

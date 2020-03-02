@@ -8,7 +8,6 @@ export const isBeta = env === 'beta'
 export const isProd = env === 'prod'
 export const isRealProd = env === 'realProd'
 const urlConfig = {
-  // mock
   'beta':  'http://localhost:3070',
   'prod': 'http://www.pengjiandry.com:7080'
 }
@@ -60,20 +59,39 @@ export interface IUrlQuery {
     endDate?: string
 }
 
-export function requestGet(url: any, params: any): Promise<any> {
+export function requestGet(url: any, params?: any, showMessage?: boolean): Promise<any> {
   return new Promise((resolve, reject) => {
-    axios.get(`${urlConfig[env]}${url}`, { params }).then((res: IRes<any>) => {
+    axios.get(`${urlConfig[env]}${url}`, { params: params || {} }).then((res: IRes<any>) => {
       resolve(res.data)
+      if (showMessage) {
+        message.info(res.data.data)
+      }
     }).catch((e) => {
       message.error(e.toString())
       reject(e)
     })
   })
 }
-export function requestPostReal(url: any, params: any): Promise<any> {
+export function requestDelete(url: any, params?: any, showMessage?: boolean): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios.delete(`${urlConfig[env]}${url}`, { params: params || {} }).then((res: IRes<any>) => {
+      resolve(res.data)
+      if (showMessage) {
+        message.info(res.data.data)
+      }
+    }).catch((e) => {
+      message.error(e.toString())
+      reject(e)
+    })
+  })
+}
+export function requestPost(url: any, params: any, showMessage?: boolean): Promise<any> {
   return new Promise((resolve, reject) => {
     axios.post(`${urlConfig[env]}${url}`, params).then((res: IRes<any>) => {
       resolve(res.data)
+      if (showMessage) {
+        message.info(res.data.data)
+      }
     }).catch((e) => {
       message.error(e.toString())
       reject(e)
