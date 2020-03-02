@@ -19,6 +19,7 @@ const { Sider, Content, Header } = Layout;
 const ArticleEdit = lazy(() => import('src/views/Article/ArticleEdit'))
 const ArticleAdd = lazy(() => import('src/views/Article/ArticleAdd'))
 const ArticleList = lazy(() => import('src/views/Article/ArticleList'))
+const History = lazy(() => import('src/views/Article/History'))
 const ArticleDetail = lazy(() => import('src/views/Article/ArticleDetail'))
 const TagList = lazy(() => import('src/views/Tag/TagList'))
 const TagEdit = lazy(() => import('src/views/Tag/TagEdit'))
@@ -46,6 +47,10 @@ class MainRouter extends React.PureComponent<any, any> {
           <Route
             path="/article-list"
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleList {...props} /></Suspense>)}
+          />
+          <Route
+            path="/article-history/:_id"
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><History {...props} /></Suspense>)}
           />
           <Route
             path="/article-edit/:_id"

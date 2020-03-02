@@ -63,28 +63,54 @@ export default class ArticleList extends React.Component<IProps, IState> {
           dataSource={data || []}
           rowSelection={rowSelection}
           pagination={pagination}
-          onEdit={(_id: string, row: IArticleItem) => {
-            this.props.history.push(`/article-edit/${ row._id }`)
-          }}
-          onDel={(_id: string, row: IArticleItem) => {
-            confirm({
-              title: <span> 确定删除 { row.title }</span>,
-              okText: '确定',
-              cancelText: '取消',
-              onOk: () => {
-                this.storeArticle.deleteData(row._id).then(() => {
-                  this.initList()
-                })
-              },
-              onCancel: () => {
-                console.log('Cancel');
-              },
-            });
-          }}
+          onOperation={
+            (_id: string, row: IArticleItem, type: string) => {
+              if (type === 'edit') {
+                this.onEdit(_id, row)
+              }
+              if (type === 'detail') {
+                this.onDetail(_id, row)
+              }
+              if (type === 'history') {
+                this.onHistory(_id, row)
+              }
+              if (type === 'del') {
+                this.onDel(_id, row)
+              }
+            }
+          }
           // tableChange={this.tableChange}
         />
       </div>
     );
+  }
+
+  private onEdit = (_id: string, row: IArticleItem) => {
+    this.props.history.push(`/article-edit/${ row._id }`)
+  }
+
+  private onDetail= (_id: string, row: IArticleItem) => {
+    this.props.history.push(`/article-detail/${ row._id }`)
+  }
+
+  private onHistory = (_id: string, row: IArticleItem) => {
+    this.props.history.push(`/article-history/${ row._id }`)
+  }
+
+  private onDel = (_id: string, row: IArticleItem) => {
+    confirm({
+      title: <span> 确定删除 { row.title }</span>,
+      okText: '确定',
+      cancelText: '取消',
+      onOk: () => {
+        this.storeArticle.deleteData(row._id).then(() => {
+          this.initList()
+        })
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      }
+    })
   }
 
   private onSelectChange(selectedRowKeys: any) {

@@ -7,8 +7,7 @@ interface IProps {
   rowSelection: any
   pagination: any
   tableChange?: (pagination: any, filters: any, sorter:any, extra: any) => void
-  onEdit: (id: string, data: any) => void
-  onDel: (id: string, data: any) => void
+  onOperation: (id: string, data: any, type: string) => void
 }
 
 export default class ArticleTable extends React.Component<IProps, any> {
@@ -37,19 +36,19 @@ export default class ArticleTable extends React.Component<IProps, any> {
           return (
             <div className="flex-h-flex-start-center">
 
-              <Button onClick={ () => this.props.onEdit(_id, row) } className="base-table-button base-table-button_no-padding" type="link">
+              <Button onClick={ () => this.props.onOperation(_id, row, 'edit') } className="base-table-button base-table-button_no-padding" type="link">
                 <Icon type="form" />
               </Button>
 
-              <Button onClick={ () => this.props.onEdit(_id, row) } className="base-table-button base-table-button_no-padding" type="link">
+              <Button onClick={ () => this.props.onOperation(_id, row, 'detail') } className="base-table-button base-table-button_no-padding" type="link">
                 <Icon type="container" />
               </Button>
 
-              <Button onClick={ () => this.props.onDel(_id, row) } className="base-table-button base-table-button_no-padding" type="link">
+              <Button onClick={ () => this.props.onOperation(_id, row, 'history') } className="base-table-button base-table-button_no-padding" type="link">
                 <Icon type="branches" />
               </Button>
 
-              <Button onClick={ () => this.props.onDel(_id, row) } className="base-table-button base-table-button_no-padding" type="link">
+              <Button onClick={ () => this.props.onOperation(_id, row, 'del') } className="base-table-button base-table-button_no-padding" type="link">
                 <Icon type="delete" />
               </Button>
 
