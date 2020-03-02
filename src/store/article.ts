@@ -30,13 +30,22 @@ export default class ArticleStore {
     }
 
     @action
-    public deleteData = (_id: string) => {
+    public deleteData = (_id?: string) => {
       return requestDelete('/api/v1/delete/article/' + _id, {}, true)
     }
 
     @action
-    public setData = (data: IArticleItem) => {
-      this.data = data
+    public setData = (data?: IArticleItem) => {
+      this.data = data || {
+        title: '', // 文章标题
+        post: '', // 文章封面
+        content: '', // 文章内容
+        tag: [], // 文章标签
+        createTime: '', // 文章创建时间 YYYY-MM-DD HH:mm:ss
+        updateTime: '', // 文章更新时间 YYYY-MM-DD HH:mm:ss
+        version: 0, // 版本
+        history: []
+      }
     }
 
     @action

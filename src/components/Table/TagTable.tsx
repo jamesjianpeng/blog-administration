@@ -23,6 +23,10 @@ export default class TagTable extends React.Component<IProps, any> {
         dataIndex: 'value',
       },
       {
+        title: '版本',
+        dataIndex: 'version',
+      },
+      {
         title: '创建时间',
         dataIndex: 'createTime',
       },

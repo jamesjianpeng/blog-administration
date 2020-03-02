@@ -1,13 +1,13 @@
 import { observable, action } from 'mobx'
-import { IArticleItem, IResPage, IRes, IParamPage } from 'src/interface'
+import { ITag, IResPage, IRes, IParamPage } from 'src/interface'
 import { requestPost, requestGet, requestDelete  } from 'src/help/request'
 
-export type IArticles = IResPage<IArticleItem[]>
-export type IArticle = IRes<IArticleItem>
+export type IArticles = IResPage<ITag[]>
+export type IArticle = IRes<ITag>
 
 export default class TagStore {
     @observable
-    public data: IArticleItem = {} as IArticleItem
+    public data: ITag = {} as ITag
 
     @observable
     public list: IArticles = {} as IArticles
@@ -30,17 +30,24 @@ export default class TagStore {
     }
 
     @action
-    public deleteData = (_id: string) => {
+    public deleteData = (_id?: string) => {
       return requestDelete('/api/v1/delete/tag/' + _id, {}, true)
     }
 
     @action
-    public setData = (data: IArticleItem) => {
-      this.data = data
+    public setData = (data?: ITag) => {
+      this.data = data || {
+        text: '',
+        value: '',
+        createTime: '',
+        updateTime: '',
+        version: 0,
+        history: []
+      }
     }
 
     @action
-    public postData = (data: IArticleItem) => {
+    public postData = (data: ITag) => {
       return requestPost('/api/v1/post/tag', data)
     }
 

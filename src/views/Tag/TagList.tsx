@@ -60,7 +60,7 @@ export default class TagList extends React.Component<IProps, IState> {
           rowSelection={rowSelection}
           pagination={pagination}
           onEdit={(_id: string, row: IArticleItem) => {
-            this.props.history.push(`/article-edit/${ row._id }`)
+            this.props.history.push(`/tag-edit/${ row._id }`)
           }}
           onDel={(_id: string, row: IArticleItem) => {
             confirm({

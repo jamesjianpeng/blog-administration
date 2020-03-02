@@ -20,7 +20,7 @@ class Meta extends React.Component<IProps & FormComponentProps, any> {
           {getFieldDecorator('title', {
             initialValue: this.props.data.title,
             rules: [{ required: true, message: '请输入文章标题' }],
-          })( <Input placeholder="请选择标签" />)}
+          })( <Input placeholder="请输入文章标题" />)}
         </Form.Item>
         <Form.Item label="标签">
           {getFieldDecorator('tag', {

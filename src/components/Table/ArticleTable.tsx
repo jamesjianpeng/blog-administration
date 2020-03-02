@@ -19,6 +19,10 @@ export default class ArticleTable extends React.Component<IProps, any> {
         dataIndex: 'title',
       },
       {
+        title: '版本',
+        dataIndex: 'version',
+      },
+      {
         title: '创建时间',
         dataIndex: 'createTime',
       },

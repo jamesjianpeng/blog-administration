@@ -17,9 +17,12 @@ import './Main.css'
 
 const { Sider, Content, Header } = Layout;
 const ArticleEdit = lazy(() => import('src/views/Article/ArticleEdit'))
+const ArticleAdd = lazy(() => import('src/views/Article/ArticleAdd'))
 const ArticleList = lazy(() => import('src/views/Article/ArticleList'))
 const ArticleDetail = lazy(() => import('src/views/Article/ArticleDetail'))
 const TagList = lazy(() => import('src/views/Tag/TagList'))
+const TagEdit = lazy(() => import('src/views/Tag/TagEdit'))
+const TagAdd = lazy(() => import('src/views/Tag/TagAdd'))
 
 interface IStates {
   collapsed: boolean
@@ -45,16 +48,28 @@ class MainRouter extends React.PureComponent<any, any> {
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleList {...props} /></Suspense>)}
           />
           <Route
-            path={['/article-edit/:_id', '/article-edit']}
+            path="/article-edit/:_id"
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleEdit {...props} /></Suspense>)}
           />
           <Route
-            path={['/article-detail/:_id', '/article-detail']}
+            path="/article-add"
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleAdd {...props} /></Suspense>)}
+          />
+          <Route
+            path="/article-detail/:_id"
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><ArticleDetail {...props} /></Suspense>)}
           />
           <Route
-            path={['/tags']}
+            path="/tag-list"
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><TagList {...props} /></Suspense>)}
+          />
+          <Route
+            path="/tag-edit/:_id"
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><TagEdit {...props} /></Suspense>)}
+          />
+          <Route
+            path="/tag-add"
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><TagAdd {...props} /></Suspense>)}
           />
           <Route exact={true} path="/" component={(props: any) => <Index {...props} />} />
         </Switch>
