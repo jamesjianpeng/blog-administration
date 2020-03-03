@@ -4,7 +4,6 @@ export default class ArticleDetail extends React.Component {
   public render() {
     return (
       <div>
-        ArticleDetail
         <UploadImg />
       </div>
     );
