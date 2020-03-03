@@ -37,6 +37,7 @@ export default class ArticleEdit extends React.Component<IProps, any> {
 
   public componentDidMount() {
     const _id = this.props.match.params._id
+    this.storeArticle.setStep(0)
     if (_id) {
       this.storeArticle.getData(_id)
     } else {

@@ -74,7 +74,9 @@ export class MenuIndex extends React.PureComponent<IProps, IState> {
   public render() {
     return (
       <div>
-      <h1 style={{ height: '64px', padding: 0, margin: 0 }}> logo </h1>
+      <h1 className="header-logo">
+        smartBlog
+      </h1>
       <Menu
         defaultOpenKeys={this.state.openKey}
         defaultSelectedKeys={this.state.selectedKey}

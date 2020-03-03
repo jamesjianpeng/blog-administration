@@ -115,7 +115,6 @@ class Main extends React.PureComponent<IProps, IStates> {
   }
 
   public render() {
-    console.log('render')
     return (
       <React.Fragment>
 

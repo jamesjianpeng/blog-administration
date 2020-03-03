@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/",
   "dependencies": {
+    "@ant-design/icons": "^4.0.2",
     "@antv/g2-brush": "0.0.2",
     "antd": "^3.26.0",
     "axios": "^0.19.2",
