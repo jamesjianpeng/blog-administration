@@ -5,7 +5,6 @@ import { IArticleOperationType, IMatch } from 'src/interface'
 import { TagStore } from 'src/store'
 import { History, Location } from 'history'
 import 'src/views/Article/articleEdit.css'
-import moment from 'moment'
 
 import Meta from 'src/components/Tag/Meta'
 
@@ -50,8 +49,8 @@ export default class ArticleEdit extends React.Component<IProps, any> {
       this.storeTag.postData({...current, ...{
         ...data,
         version: Number(current.version) ? Number(current.version) + 1 : 1,
-        createTime: current._id ? current.createTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-        updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        createTime: current._id ? current.createTime : new Date(),
+        updateTime: new Date()
       }}).then(() => {
         this.lookDetail('/tag-list')
       })

@@ -59,12 +59,20 @@ export interface IUrlQuery {
     endDate?: string
 }
 
+export type IUrlQueryTemplate = IUrlQuery | {}
+
 export function requestGet(url: any, params?: any, showMessage?: boolean): Promise<any> {
   return new Promise((resolve, reject) => {
     axios.get(`${urlConfig[env]}${url}`, { params: params || {} }).then((res: IRes<any>) => {
-      resolve(res.data)
-      if (showMessage) {
-        message.info(res.data.data)
+      if (res.data) {
+        resolve(res.data)
+        if (showMessage) {
+          message.success(res.data.message.toString())
+        }
+      } else {
+        if (showMessage) {
+          message.warn(res.toString())
+        }
       }
     }).catch((e) => {
       message.error(e.toString())
@@ -75,9 +83,15 @@ export function requestGet(url: any, params?: any, showMessage?: boolean): Promi
 export function requestDelete(url: any, params?: any, showMessage?: boolean): Promise<any> {
   return new Promise((resolve, reject) => {
     axios.delete(`${urlConfig[env]}${url}`, { params: params || {} }).then((res: IRes<any>) => {
-      resolve(res.data)
-      if (showMessage) {
-        message.info(res.data.data)
+      if (res.data) {
+        resolve(res.data)
+        if (showMessage) {
+          message.success(res.data.message.toString())
+        }
+      } else {
+        if (showMessage) {
+          message.warn(res.toString())
+        }
       }
     }).catch((e) => {
       message.error(e.toString())
@@ -88,9 +102,15 @@ export function requestDelete(url: any, params?: any, showMessage?: boolean): Pr
 export function requestPost(url: any, params: any, showMessage?: boolean): Promise<any> {
   return new Promise((resolve, reject) => {
     axios.post(`${urlConfig[env]}${url}`, params).then((res: IRes<any>) => {
-      resolve(res.data)
-      if (showMessage) {
-        message.info(res.data.data)
+      if (res.data) {
+        resolve(res.data)
+        if (showMessage) {
+          message.success(res.data.message.toString())
+        }
+      } else {
+        if (showMessage) {
+          message.warn(res.toString())
+        }
       }
     }).catch((e) => {
       message.error(e.toString())
@@ -121,4 +141,15 @@ const axiosInterceptorsReq = () => { // 请求之前
   })
 }
 
+const axiosInterceptorsRes = () => { // 请求之前
+  axios.interceptors.response.use((config) => {
+    console.log(config)
+    console.log('-----=======')
+    return config
+  }, (error: any) => {
+    return error
+  })
+}
+
+axiosInterceptorsRes()
 axiosInterceptorsReq()

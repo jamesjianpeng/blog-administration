@@ -4,7 +4,9 @@ export interface IArticleItem {
   title: string // 文章标题
   post: string // 文章封面
   content: string // 文章内容
+  html: string // 文章内容html
   tag: string[] // 文章标签
+  state: string // 文章状态
   createTime: string // 文章创建时间 YYYY-MM-DD HH:mm:ss
   updateTime: string // 文章更新时间 YYYY-MM-DD HH:mm:ss
   version: number // 版本
@@ -28,10 +30,22 @@ export interface IMatch<T> {
   params: T
 }
 
+export interface IHistoryListen {
+  pathname: string
+  search: string
+  hash: string
+  state: string | undefined
+  key: string
+}
+
 export interface IParamPage {
   page: number
+  type?: string
+  keyword?: string
   pageSize?: number
   search?: string
+  startDate?: string
+  endDate?: string
 }
 
 export interface IPropsBase {
@@ -47,9 +61,9 @@ export interface IResPage<T> {
   data: T
   total: number
   page: number
-  size: number
   search: string
   pageSize: number
+  keyword: string
 }
 export interface IConfig {
   text: string

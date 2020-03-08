@@ -48,7 +48,7 @@ export default class TagStore {
 
     @action
     public postData = (data: ITag) => {
-      return requestPost('/api/v1/post/tag', data)
+      return requestPost('/api/v1/post/tag', data, true)
     }
 
     @action

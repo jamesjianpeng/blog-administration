@@ -146,9 +146,9 @@ export class MenuIndex extends React.PureComponent<IProps, IState> {
       '订单管理': <img style={style} src={order} alt="" />,
       '标签管理': <img style={style} src={pianoRoom} alt="" />,
       '文章管理': <img style={style} src={schedule} alt="" />,
-      '其他管理': <img style={style} src={dashboard} alt="" />
+      '项目管理': <img style={style} src={dashboard} alt="" />
     }
-    return iconNode[icon] || <img style={{ display: 'none' }} />
+    return iconNode[icon] || <img style={style} alt="" />
   }
 
   private initKeys = (path: string, menu: any) => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Icon, Button } from 'antd';
 import './Base.css'
-
+import moment from 'moment'
 interface IProps {
   dataSource: any[]
   rowSelection: any
@@ -29,10 +29,16 @@ export default class TagTable extends React.Component<IProps, any> {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        render: (p: string) => {
+          return moment(new Date(p)).format('YYYY-MM-DD HH:mm:ss')
+        }
       },
       {
         title: '更新时间',
         dataIndex: 'updateTime',
+        render: (p: string) => {
+          return moment(new Date(p)).format('YYYY-MM-DD HH:mm:ss')
+        }
       },
       {
         title: '操作',

@@ -1,7 +1,10 @@
 import React from 'react'
 import { Button } from 'antd'
-import { IArticleProps as IProps } from 'src/interface'
+import { IArticleProps } from 'src/interface'
 
+interface IProps extends IArticleProps {
+  id: string
+}
 interface IState {
   data: any
 }
@@ -21,7 +24,7 @@ export default class Done extends React.PureComponent<IProps, IState> {
   }
   private lookDetail = () => {
     if (this.props.lookDetail) {
-      this.props.lookDetail('/article-detail')
+      this.props.lookDetail(`/article-detail/${this.props.id}`)
     }
   }
   private onGono = () => {

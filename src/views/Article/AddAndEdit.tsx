@@ -6,7 +6,7 @@ import ArticleStore from 'src/store/article'
 import ConfigStore from 'src/store/config'
 import { History, Location } from 'history'
 import 'src/views/Article/articleEdit.css'
-import moment from 'moment';
+// import moment from 'moment';
 
 import Meta from 'src/components/Article/Meta'
 import Main from 'src/components/Article/Main'
@@ -23,9 +23,20 @@ interface IProps {
   [STORE_CONFIG]: ConfigStore
 }
 
+interface IState {
+  currentId: string
+}
+
 @inject(STORE_ARTICLE, STORE_CONFIG)
 @observer
-export default class ArticleEdit extends React.Component<IProps, any> {
+export default class ArticleEdit extends React.Component<IProps, IState> {
+
+  constructor(props: IProps) {
+    super(props)
+    this.state = {
+      currentId: ''
+    }
+  }
 
   get storeArticle() {
     return this.props[STORE_ARTICLE]
@@ -59,7 +70,7 @@ export default class ArticleEdit extends React.Component<IProps, any> {
           [
             <Meta key={0} data={ this.storeArticle.data } tags={ this.storeConfig.tags } onFinish={ this.getMeta } />,
             <Main key={1} data={ this.storeArticle.data.content } onFinish={ this.getMain } />,
-            <Done key={2} data={ this.storeArticle.data } onFinish={ this.getDone } lookDetail={ this.lookDetail } />
+            <Done key={2} data={ this.storeArticle.data } id={this.state.currentId} onFinish={ this.getDone } lookDetail={ this.lookDetail } />
           ][this.storeArticle.step]
         }
         </div>
@@ -74,7 +85,7 @@ export default class ArticleEdit extends React.Component<IProps, any> {
 
   private getMain = (data: any, type: IArticleOperationType) => {
     if (type === 'gono') {
-      this.storeArticle.setData({...this.storeArticle.data, ...{ content: data.text }})
+      this.storeArticle.setData({...this.storeArticle.data, ...{ content: data.text, html: data.html }})
       return
     }
     if (type === 'done') {
@@ -85,10 +96,15 @@ export default class ArticleEdit extends React.Component<IProps, any> {
       this.storeArticle.postData({...current,
         ...{
           version: Number(current.version) ? Number(current.version) + 1 : 1,
-          content: data,
-          createTime: current._id ? current.createTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-          updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-        }})
+          createTime: current._id ? current.createTime : new Date(),
+          updateTime: new Date()
+          // createTime: current._id ? current.createTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+          // updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        }}).then((res: any) => {
+          this.setState({
+            currentId: res
+          })
+        })
     }
     const step: number = type === 'done' ?
       this.storeArticle.step + 1 :

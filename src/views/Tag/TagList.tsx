@@ -90,7 +90,7 @@ export default class TagList extends React.Component<IProps, IState> {
   private initList = () => {
     this.storeTag.getList({
       page: 1,
-      pageSize: 10
+      pageSize: 100
     })
   }
 }

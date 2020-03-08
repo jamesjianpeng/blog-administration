@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import { History } from 'history'
 import { IUrlQuery } from 'src/help/request'
-export { IUrlQuery } from 'src/help/request'
 export const scrollTop = () => {
   $('#main-container_srcoll-top').animate({scrollTop:0},100);
   window.scrollTo(0,0)
@@ -15,10 +14,7 @@ export const delNullData = (data: any) => {
   })
 }
 
-export const splitUrl = (url: string): IUrlQuery | {} => {
-  if (!url) {
-    return {}
-  }
+export const splitUrl = <T>(url: string): T => {
   const index: number = url.indexOf('?')
   url = url.slice(index + 1)
   const result: any = {}
@@ -160,11 +156,16 @@ const addURLParam = (url: string, key: string, value: string) => {
  */
 
 export function buildURL (url: string, options: any) {
-  'use strict';
   if (!options) {
     return url
   }
-  forEach(options, (value: string, key: string) => {
+  const newOptions = {}
+  Object.keys(options).map((it: string) => {
+    if (it) {
+      newOptions[it] = options[it]
+    }
+  })
+  forEach(newOptions, (value: string, key: string) => {
     url = addURLParam(url, key, value);
   })
   return url;

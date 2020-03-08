@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, Icon, Button, Tag } from 'antd';
 import './Base.css'
+import moment from 'moment'
 
 interface IProps {
   dataSource: any[]
@@ -29,12 +30,22 @@ export default class ArticleTable extends React.Component<IProps, any> {
         dataIndex: 'version',
       },
       {
+        title: '状态',
+        dataIndex: 'state',
+      },
+      {
         title: '创建时间',
         dataIndex: 'createTime',
+        render: (p: string) => {
+          return moment(new Date(p)).format('YYYY-MM-DD HH:mm:ss')
+        }
       },
       {
         title: '更新时间',
         dataIndex: 'updateTime',
+        render: (p: string) => {
+          return moment(new Date(p)).format('YYYY-MM-DD HH:mm:ss')
+        }
       },
       {
         title: '操作',
