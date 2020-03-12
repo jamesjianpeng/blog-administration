@@ -11,7 +11,8 @@ import { STORE_CONFIG } from 'src/constants'
 import { observer, inject } from 'mobx-react'
 
 import { BreadcrumbIndex } from 'src/components/Breadcrumb'
-import { MenuIndex, IMenu } from 'src/components/Menu'
+import { MenuIndex } from 'src/components/Menu'
+import { IMenu } from 'src/interface'
 import Watermark from 'src/components/Watermark'
 import './Main.css'
 

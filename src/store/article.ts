@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx'
-import { IArticleItem, IResPage, IRes, IParamPage } from 'src/interface'
+import { IArticle, IResPage, IRes, IParamPage } from 'src/interface'
 import { requestPost, requestGet, requestDelete  } from 'src/help/request'
 import { ARTICLE_DOING } from 'src/constants'
 interface IResPageTyp<T> extends IResPage<T> {
@@ -8,12 +8,12 @@ interface IResPageTyp<T> extends IResPage<T> {
   endDate: string
 }
 
-export type IArticles = IResPageTyp<IArticleItem[]>
-export type IArticle = IRes<IArticleItem>
+export type IArticles = IResPageTyp<IArticle[]>
+export type IArticleRes = IRes<IArticle>
 
 export default class ArticleStore {
     @observable
-    public data: IArticleItem = {} as IArticleItem
+    public data: IArticle = {} as IArticle
 
     @observable
     public list: IArticles = {
@@ -40,7 +40,7 @@ export default class ArticleStore {
 
     @action
     public getData = (_id: string) => {
-      return  requestGet('/api/v1/get/article/' + _id).then((res: IArticle) => {
+      return  requestGet('/api/v1/get/article/' + _id).then((res: IArticleRes) => {
         this.data = res.data
       })
     }
@@ -56,7 +56,7 @@ export default class ArticleStore {
     }
 
     @action
-    public setData = (data?: IArticleItem) => {
+    public setData = (data?: IArticle) => {
       this.data = data || {
         title: '', // 文章标题
         post: '', // 文章封面
@@ -72,7 +72,7 @@ export default class ArticleStore {
     }
 
     @action
-    public postData = (data: IArticleItem) => {
+    public postData = (data: IArticle) => {
       return requestPost('/api/v1/post/article', data)
     }
 

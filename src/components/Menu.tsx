@@ -3,6 +3,7 @@ import { Menu, Icon } from 'antd'
 import { History, Location } from 'history'
 import './Menu.css'
 import dashboard from 'src/images/icon/dashboard.png'
+import { IMenu } from 'src/interface'
 import role from 'src/images/icon/role.png'
 import authority from 'src/images/icon/authority.png'
 import personnel from 'src/images/icon/personnel.png'
@@ -12,15 +13,6 @@ import pianoRoom from 'src/images/icon/pianoRoom.png'
 import schedule from 'src/images/icon/schedule.png'
 
 const { SubMenu } = Menu
-
-export interface IMenu {
-  icon?: string
-  title: string
-  path: string
-  children?: IMenu[]
-  disabled?: boolean
-  version?: 0 | 1
-}
 interface IProps {
   path: string
   menu: IMenu[]

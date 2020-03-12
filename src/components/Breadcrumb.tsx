@@ -1,6 +1,6 @@
 import React from 'react'
 import { Breadcrumb } from 'antd'
-import { IMenu } from 'src/components/Menu'
+import { IMenu } from 'src/interface'
 import './Breadcrumb.css'
 interface IProps {
   path: string

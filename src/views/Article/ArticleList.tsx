@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Input, DatePicker, } from 'antd'
 import { ArticleStore } from 'src/store'
 import { STORE_ARTICLE, ARTICLE_DOING, ARTICLE_DISCARD, ARTICLE_FILE, ARTICLE_TEXT } from 'src/constants'
-import { IPropsBase, IArticleItem } from 'src/interface'
+import { IPropsBase, IArticle } from 'src/interface'
 import { IUrlQuery } from 'src/help/request'
 import { splitUrl } from 'src/help/util'
 import { observer, inject } from 'mobx-react'
@@ -109,7 +109,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
               rowSelection={rowSelection}
               pagination={pagination}
               onOperation={
-                (_id: string, { row, state }: { row: IArticleItem, state: string }, type: string) => {
+                (_id: string, { row, state }: { row: IArticle, state: string }, type: string) => {
                   if (type === 'edit') {
                     this.onEdit(_id, row)
                   }
@@ -138,7 +138,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
               rowSelection={rowSelection}
               pagination={pagination}
               onOperation={
-                (_id: string, { row }: { row: IArticleItem }, type: string) => {
+                (_id: string, { row }: { row: IArticle }, type: string) => {
                   if (type === 'edit') {
                     this.onEdit(_id, row)
                   }
@@ -164,7 +164,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
               rowSelection={rowSelection}
               pagination={pagination}
               onOperation={
-                (_id: string, { row }: { row: IArticleItem }, type: string) => {
+                (_id: string, { row }: { row: IArticle }, type: string) => {
                   if (type === 'edit') {
                     this.onEdit(_id, row)
                   }
@@ -236,19 +236,19 @@ export default class ArticleList extends React.Component<IProps, IState> {
     })
   }
 
-  private onEdit = (_id: string, row: IArticleItem) => {
+  private onEdit = (_id: string, row: IArticle) => {
     this.props.history.push(`/article-edit/${row._id}`)
   }
 
-  private onDetail = (_id: string, row: IArticleItem) => {
+  private onDetail = (_id: string, row: IArticle) => {
     this.props.history.push(`/article-detail/${row._id}`)
   }
 
-  private onHistory = (_id: string, row: IArticleItem) => {
+  private onHistory = (_id: string, row: IArticle) => {
     this.props.history.push(`/article-history/${row._id}`)
   }
 
-  private onDel = (_id: string, row: IArticleItem) => {
+  private onDel = (_id: string, row: IArticle) => {
     confirm({
       title: <span> 确定删除 {row.title}</span>,
       okText: '确定',
@@ -264,7 +264,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
     })
   }
 
-  private onState = (_id: string, row: IArticleItem, state: string) => {
+  private onState = (_id: string, row: IArticle, state: string) => {
     confirm({
       title: <span> 确定把 {row.title} 的状态修改为 {state}</span>,
       okText: '确定',

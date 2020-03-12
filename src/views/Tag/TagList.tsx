@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'antd'
 import { TagStore } from 'src/store'
 import { STORE_TAG } from 'src/constants'
-import { IPropsBase, IArticleItem } from 'src/interface'
+import { IPropsBase, IArticle } from 'src/interface'
 import { observer, inject } from 'mobx-react'
 import TagTable from 'src/components/Table/TagTable'
 import { changeURL } from 'src/help/util'
@@ -59,10 +59,10 @@ export default class TagList extends React.Component<IProps, IState> {
           dataSource={data || []}
           rowSelection={rowSelection}
           pagination={pagination}
-          onEdit={(_id: string, row: IArticleItem) => {
+          onEdit={(_id: string, row: IArticle) => {
             this.props.history.push(`/tag-edit/${ row._id }`)
           }}
-          onDel={(_id: string, row: IArticleItem) => {
+          onDel={(_id: string, row: IArticle) => {
             confirm({
               title: <span> 确定删除 { row.title }</span>,
               okText: '确定',
