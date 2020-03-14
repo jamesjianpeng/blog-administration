@@ -24,7 +24,16 @@ export interface IParamPage {
   search?: string
   startDate?: string
   endDate?: string
+  tag?: string
 }
+
+export interface IProject {
+  name: string // 项目名称
+  type: string // 项目类型
+  version: number // 版本
+  time: string // 首次发布时间
+}
+
 
 export interface IPropsBase {
   history: History
@@ -39,9 +48,9 @@ export interface IResPage<T> {
   data: T
   total: number
   page: number
-  search: string
+  search?: string
   pageSize: number
-  keyword: string
+  keyword?: string
 }
 export interface IConfig {
   text: string

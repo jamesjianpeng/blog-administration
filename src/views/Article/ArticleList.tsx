@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal, Input, DatePicker, } from 'antd'
-import { ArticleStore } from 'src/store'
-import { STORE_ARTICLE, ARTICLE_DOING, ARTICLE_DISCARD, ARTICLE_FILE, ARTICLE_TEXT } from 'src/constants'
+import { Modal, Input, DatePicker, Tag } from 'antd'
+import { ArticleStore, TagStore } from 'src/store'
+import { STORE_ARTICLE, STORE_TAG, ARTICLE_DOING, ARTICLE_DISCARD, ARTICLE_FILE, ARTICLE_TEXT } from 'src/constants'
 import { IPropsBase, IArticle } from 'src/interface'
 import { IUrlQuery } from 'src/help/request'
 import { splitUrl } from 'src/help/util'
@@ -11,6 +11,7 @@ import ArticleDiscardTable from 'src/components/Table/ArticleDiscardTable'
 import ArticleFileTable from 'src/components/Table/ArticleFileTable'
 import moment from 'moment'
 import { changeURL } from 'src/help/util'
+import { ITag } from '@smartblog/models';
 const { confirm } = Modal
 const { RangePicker } = DatePicker
 
@@ -18,16 +19,21 @@ export type RangePickerValue = undefined[] | [moment.Moment] | [undefined, momen
 
 interface IProps extends IPropsBase {
   [STORE_ARTICLE]: ArticleStore
+  [STORE_TAG]: TagStore
 }
 interface IState {
   selectedRowKeys: any
 }
 
-@inject(STORE_ARTICLE)
+@inject(STORE_ARTICLE, STORE_TAG)
 @observer
 export default class ArticleList extends React.Component<IProps, IState> {
   get storeArticle() {
     return this.props[STORE_ARTICLE]
+  }
+
+  get storeTag() {
+    return this.props[STORE_TAG]
   }
 
   get data() {
@@ -46,17 +52,17 @@ export default class ArticleList extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props)
-    const data: IUrlQuery = splitUrl<IUrlQuery>(this.props.location.search) || {}
-    this.storeArticle.setList({
-      ...data
-    })
-    this.initList()
     this.state = {
       selectedRowKeys: [],
     }
   }
   public componentDidMount() {
-    //
+    const data: IUrlQuery = splitUrl<IUrlQuery>(this.props.location.search) || {}
+    this.storeArticle.setList({
+      ...data
+    })
+    this.initList()
+    this.storeTag.getList()
   }
   public render() {
     const data = this.data.data
@@ -100,7 +106,20 @@ export default class ArticleList extends React.Component<IProps, IState> {
         </ul>
         <div className="flex-h-flex-start-center">
           <Input.Search style={ { width: 300 } } value={this.data.keyword} className="m-b-20 m-r-20" type="text" placeholder="对标题进行搜索" onChange={this.changeSearch} onSearch={this.search}/>
+        </div>
+        <div className="flex-h-flex-start-center">
           <RangePicker className="m-b-20" value={this.rangeDate} onChange={this.changeRangeTime} />
+          <div className="m-l-20">
+            {
+              this.storeTag.list.data && this.storeTag.list.data.map((item: ITag) => {
+                  return (<Tag
+                    key={ item.value }
+                    onClick={ () => this.changeTag(item) }
+                    className="m-b-20"
+                    color={ this.data.tag.includes(item.text) ? '#333' : '#999' }>{ item.text }</Tag>)
+              })
+            }
+          </div>
         </div>
         {
           ARTICLE_DOING === this.data.type ? (
@@ -208,13 +227,34 @@ export default class ArticleList extends React.Component<IProps, IState> {
     })
   }
   private search = (keyword: string) => {
+    changeURL(this.props.history, this.props.location, {
+      keyword,
+      startDate: '',
+      endDate: '',
+      tag: '',
+      page: 1,
+      pageSize: Number(this.data.pageSize)
+    })
     this.storeArticle.getList({
       page: 1,
       pageSize: Number(this.data.pageSize),
       type: this.data.type,
       startDate: '',
       endDate: '',
-      keyword
+      keyword,
+      tag: ''
+    })
+  }
+  private changeTag = (tag: ITag) => {
+    changeURL(this.props.history, this.props.location, { tag: tag.text })
+    this.storeArticle.getList({
+      page: 1,
+      pageSize: Number(this.data.pageSize),
+      type: this.data.type,
+      startDate: this.data.startDate,
+      endDate: this.data.endDate,
+      keyword: this.data.keyword,
+      tag: tag.text
     })
   }
 
@@ -291,7 +331,8 @@ export default class ArticleList extends React.Component<IProps, IState> {
       type: this.data.type,
       keyword: this.data.keyword,
       startDate: this.data.startDate,
-      endDate: this.data.endDate
+      endDate: this.data.endDate,
+      tag: this.data.tag
     })
   }
 }

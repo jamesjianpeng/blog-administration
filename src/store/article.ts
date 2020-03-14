@@ -2,10 +2,12 @@ import { observable, action } from 'mobx'
 import { IArticle, IResPage, IRes, IParamPage } from 'src/interface'
 import { requestPost, requestGet, requestDelete  } from 'src/help/request'
 import { ARTICLE_DOING } from 'src/constants'
+
 interface IResPageTyp<T> extends IResPage<T> {
   type: string
   startDate: string
   endDate: string
+  tag: string
 }
 
 export type IArticles = IResPageTyp<IArticle[]>
@@ -25,7 +27,8 @@ export default class ArticleStore {
       type: ARTICLE_DOING,
       keyword: '',
       startDate: '',
-      endDate: ''
+      endDate: '',
+      tag: ''
     }
 
     @observable

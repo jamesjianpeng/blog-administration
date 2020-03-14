@@ -25,7 +25,8 @@ const ArticleDetail = lazy(() => import('src/views/Article/ArticleDetail'))
 const TagList = lazy(() => import('src/views/Tag/TagList'))
 const TagEdit = lazy(() => import('src/views/Tag/TagEdit'))
 const TagAdd = lazy(() => import('src/views/Tag/TagAdd'))
-
+const FEList = lazy(() => import('src/views/Project/FEList'))
+const BEList = lazy(() => import('src/views/Project/BEList'))
 interface IStates {
   collapsed: boolean
   menu: IMenu[]
@@ -76,6 +77,14 @@ class MainRouter extends React.PureComponent<any, any> {
           <Route
             path="/tag-add"
             component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><TagAdd {...props} /></Suspense>)}
+          />
+          <Route
+            path="/project-FE"
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><FEList {...props} /></Suspense>)}
+          />
+          <Route
+            path="/project-BE"
+            component={(props: any) => (<Suspense fallback={<BaseSkeleton />}><BEList {...props} /></Suspense>)}
           />
           <Route exact={true} path="/" component={(props: any) => <Index {...props} />} />
         </Switch>

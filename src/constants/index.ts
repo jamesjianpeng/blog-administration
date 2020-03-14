@@ -1,6 +1,7 @@
 export const STORE_ARTICLE = 'ArticleStore'
 export const STORE_CONFIG = 'ConfigStore'
 export const STORE_TAG = 'TagStore'
+export const STORE_PROJECT = 'ProjectStore'
 
 export const ARTICLE_DOING = 'doing'
 export const ARTICLE_DISCARD = 'discard'
