@@ -57,6 +57,7 @@ export interface IUrlQuery {
     date?: string
     startDate?: string
     endDate?: string
+    tag?: string
 }
 
 export type IUrlQueryTemplate = IUrlQuery | {}

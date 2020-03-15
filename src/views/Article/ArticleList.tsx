@@ -85,7 +85,8 @@ export default class ArticleList extends React.Component<IProps, IState> {
           type: this.data.type,
           keyword: this.data.keyword,
           startDate: this.data.startDate,
-          endDate: this.data.endDate
+          endDate: this.data.endDate,
+          tag: this.data.tag
         })
       }
     }
@@ -116,7 +117,10 @@ export default class ArticleList extends React.Component<IProps, IState> {
                     key={ item.value }
                     onClick={ () => this.changeTag(item) }
                     className="m-b-20"
-                    color={ this.data.tag.includes(item.value) ? '#333' : '#999' }>{ item.text }</Tag>)
+                    color={ (this.data.tag && item.value && this.data.tag.indexOf(item.value) > -1) ||
+                      (!this.data.tag && !item.value) ?
+                      '#333' :
+                      '#999' }>{ item.text }</Tag>)
               })
             }
           </div>
@@ -246,7 +250,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
     })
   }
   private changeTag = (tag: ITag) => {
-    changeURL(this.props.history, this.props.location, { tag: tag.text })
+    changeURL(this.props.history, this.props.location, { tag: tag.value })
     this.storeArticle.getList({
       page: 1,
       pageSize: Number(this.data.pageSize),
