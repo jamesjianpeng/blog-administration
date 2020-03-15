@@ -116,7 +116,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
                     key={ item.value }
                     onClick={ () => this.changeTag(item) }
                     className="m-b-20"
-                    color={ this.data.tag.includes(item.text) ? '#333' : '#999' }>{ item.text }</Tag>)
+                    color={ this.data.tag.includes(item.value) ? '#333' : '#999' }>{ item.text }</Tag>)
               })
             }
           </div>
