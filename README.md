@@ -4,6 +4,7 @@
 ```
 npm i
 ```
+
 ## 启动项目
 ```
 npm run start
@@ -17,4 +18,3 @@ npm run start
 ## 技术架构
 - typescript react mobx axios antd react-router
 - md编辑器 react-markdown-editor-lite
-
