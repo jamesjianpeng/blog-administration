@@ -96,7 +96,7 @@ export default class ArticleEdit extends React.Component<IProps, IState> {
       this.storeArticle.postData({...current,
         ...{
           version: Number(current.version) ? Number(current.version) + 1 : 1,
-          createTime: current._id ? current.createTime : new Date(),
+          createTime: current._id ? new Date(current.createTime) : new Date(),
           updateTime: new Date()
           // createTime: current._id ? current.createTime : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
           // updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')

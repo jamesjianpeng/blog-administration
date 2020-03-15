@@ -254,7 +254,7 @@ export default class ArticleList extends React.Component<IProps, IState> {
       startDate: this.data.startDate,
       endDate: this.data.endDate,
       keyword: this.data.keyword,
-      tag: tag.text
+      tag: tag.value
     })
   }
 
