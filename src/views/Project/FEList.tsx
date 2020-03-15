@@ -23,7 +23,7 @@ export default class FEList extends React.Component<IProps, any> {
   }
   public componentDidMount() {
     this.storeProject.getList({
-      name: 'blog-administration',
+      name: 'blog-administration,blog-client',
       page: 1,
       pageSize: 10
     })
@@ -35,14 +35,14 @@ export default class FEList extends React.Component<IProps, any> {
       pageSize: Number(this.data.pageSize),
       total: this.data.total,
       onChange: (page: number) => {
-        const query: any = { page, pageSize: this.data.pageSize, name: 'blog-administration' }
+        const query: any = { page, pageSize: this.data.pageSize, name: 'blog-administration,blog-client' }
         changeURL(this.props.history, this.props.location, query)
         this.storeProject.getList({
           page: Number(page),
           pageSize: Number(this.data.pageSize),
           startDate: this.data.startDate,
           endDate: this.data.endDate,
-          name: 'blog-administration'
+          name: 'blog-administration,blog-client'
         })
       }
     }
