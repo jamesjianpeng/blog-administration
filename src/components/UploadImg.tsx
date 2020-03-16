@@ -47,7 +47,7 @@ export default class UploadImg extends React.Component {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="http://localhost:3070/api/file/v1/uploadImg"
+        action="http://www.pengjiandry.com:7080/api/file/v1/uploadImg"
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
