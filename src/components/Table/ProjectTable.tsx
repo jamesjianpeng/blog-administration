@@ -1,7 +1,6 @@
 import React from 'react'
 import { Table } from 'antd';
 import './Base.css'
-import moment from 'moment'
 
 interface IProps {
   dataSource: any[]
@@ -28,7 +27,7 @@ export default class ProjectTable extends React.Component<IProps, any> {
         title: '发布时间',
         dataIndex: 'time',
         render: (p: string) => {
-          return moment(p).format('YYY-MM-DD hh:mm:ss')
+          return new Date(p).toString()
         }
       }
     ],
