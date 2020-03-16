@@ -4,7 +4,7 @@ import { ArticleStore } from 'src/store'
 import { STORE_ARTICLE } from 'src/constants'
 
 import { IPropsBase, IMatch } from 'src/interface'
-// import UploadImg from 'src/components/UploadImg';
+import UploadImg from 'src/components/UploadImg';
 
 interface IProps extends IPropsBase {
   [STORE_ARTICLE]: ArticleStore
@@ -26,8 +26,9 @@ export default class ArticleDetail extends React.Component<IProps, IState> {
   }
   public render() {
     return (
-      <div dangerouslySetInnerHTML={{ __html: this.storeArticle.data.html }}>
-        {/* <UploadImg /> */}
+      <div>
+      {/* <div dangerouslySetInnerHTML={{ __html: this.storeArticle.data.html }}> */}
+        <UploadImg />
       </div>
     );
   }
