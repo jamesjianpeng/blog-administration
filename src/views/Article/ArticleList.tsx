@@ -228,7 +228,7 @@ const ArticleList = (props: IProps) => {
                 key={item.value}
                 onClick={() => changeTag(item)}
                 className="m-b-20"
-                color={(storeArticle.tag && item.value && storeArticle.list.tag.indexOf(item.value) > -1) ||
+                color={(storeArticle.list.tag && item.value && storeArticle.list.tag === item.value) ||
                   (!storeArticle.list.tag && !item.value) ?
                   '#333' :
                   '#999'}>{item.text}</Tag>)
