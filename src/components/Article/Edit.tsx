@@ -15,7 +15,6 @@ interface IProps {
 
 export const Edit = (props: IProps) => {
   function handleEditorChange({html, text}: any) {
-    console.log('handleEditorChange', html, text)
     props.onFinsh(html, text)
   }
   return (

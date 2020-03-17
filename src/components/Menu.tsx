@@ -45,7 +45,6 @@ export class MenuIndex extends React.PureComponent<IProps, IState> {
       openKey,
       selectedKey
     })
-    console.log(this.props)
     if (!this.state.sign) {
       this.setState({
         sign: '1'

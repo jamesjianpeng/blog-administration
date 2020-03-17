@@ -45,8 +45,8 @@ export default class TagList extends React.Component<IProps, IState> {
       }
     };
     const pagination = {
-      current: this.data.page,
-      pageSize: this.data.pageSize,
+      current: Number(this.data.page) || 1,
+      pageSize: Number(this.data.pageSize) || 1,
       total: this.data.total,
       onChange: (page: number) => {
         const query: any = { page, pageSize: this.data.pageSize, keyword: this.data.search }

@@ -1,8 +1,8 @@
 import React from 'react';
-import { observer, inject } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { STORE_TAG } from 'src/constants'
 import { IArticleOperationType, IMatch } from 'src/interface'
-import { TagStore } from 'src/store'
+import { useStores } from 'src/store'
 import { History, Location } from 'history'
 import 'src/views/Article/articleEdit.css'
 
@@ -12,62 +12,45 @@ interface IProps {
   history: History
   location: Location
   match: IMatch<{ _id: string}>
-  [STORE_TAG]: TagStore
 }
 
-@inject(STORE_TAG)
-@observer
-export default class ArticleEdit extends React.Component<IProps, any> {
+const ArticleEdit = (props: IProps) => {
+  const storeTag = useStores(STORE_TAG)
 
-  get storeTag() {
-    return this.props[STORE_TAG]
-  }
-
-  public componentDidUpdate() {
-    console.log('componentDidUpdate')
-  }
-  public componentWillReceiveProps() {
-    console.log('componentWillReceiveProps')
-  }
-  public componentWillUnmount() {
-    console.log('componentWillUnmount')
-  }
-
-  public componentDidMount() {
-    this.initData()
-  }
-
-  public render() {
-    return (
-      <Meta data={ this.storeTag.data } onFinish={ this.getMeta } />
-    );
-  }
-
-  private getMeta = (data: any, type: IArticleOperationType) => {
+  const getMeta = (data: any, type: IArticleOperationType) => {
     if (type === 'done') {
-      const current: any = this.storeTag.data
-      this.storeTag.postData({...current, ...{
+      const current: any = storeTag.data
+      storeTag.postData({...current, ...{
         ...data,
         version: Number(current.version) ? Number(current.version) + 1 : 1,
         createTime: current._id ? current.createTime : new Date(),
         updateTime: new Date()
       }}).then(() => {
-        this.lookDetail('/tag-list')
+        lookDetail('/tag-list')
       })
     }
   }
 
-  private lookDetail = (url: string) => {
-    this.props.history.push(url)
+  const lookDetail = (url: string) => {
+    props.history.push(url)
   }
 
-  private initData = () => {
-    const _id = this.props.match.params._id
+  const initData = () => {
+    const _id = props.match.params._id
     if (_id) {
-      this.storeTag.getData(_id)
+      storeTag.getData(_id)
     } else {
-      this.storeTag.setData()
+      storeTag.setData()
     }
   }
+
+  React.useEffect(() => {
+    initData()
+  }, [props.match.params._id])
+
+  return (
+    <Meta data={ storeTag.data } onFinish={ getMeta } />
+  )
 }
 
+export default observer(ArticleEdit)

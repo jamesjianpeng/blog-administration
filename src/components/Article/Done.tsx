@@ -5,31 +5,28 @@ import { IArticleProps } from 'src/interface'
 interface IProps extends IArticleProps {
   id: string
 }
-interface IState {
-  data: any
+
+const Done = (props: IProps) => {
+  const lookDetail = () => {
+    if (props.lookDetail) {
+      props.lookDetail(`/article-detail/${props.id}`)
+    }
+  }
+  const onGono = () => {
+    if (props.onFinish) {
+      props.onFinish({}, 'gono')
+    }
+  }
+  return (
+    <div className="m-t-20">
+        <Button type="primary" onClick={ lookDetail }>
+          查看文章详情
+        </Button>
+        <Button className="m-l-20" type="primary" onClick={ onGono }>
+          继续添加文章
+        </Button>
+    </div>
+  )
 }
 
-export default class Done extends React.PureComponent<IProps, IState> {
-  public render() {
-    return (
-      <div className="m-t-20">
-          <Button type="primary" onClick={ this.lookDetail }>
-            查看文章详情
-          </Button>
-          <Button className="m-l-20" type="primary" onClick={ this.onGono }>
-            继续添加文章
-          </Button>
-      </div>
-    )
-  }
-  private lookDetail = () => {
-    if (this.props.lookDetail) {
-      this.props.lookDetail(`/article-detail/${this.props.id}`)
-    }
-  }
-  private onGono = () => {
-    if (this.props.onFinish) {
-      this.props.onFinish({}, 'gono')
-    }
-  }
-}
+export default Done
