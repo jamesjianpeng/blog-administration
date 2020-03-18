@@ -48,7 +48,7 @@ export default class UploadImg extends React.Component {
         className="avatar-uploader"
         showUploadList={false}
         // action="http://localhost:3070/api/file/v1/uploadImg"
-        action="http://www.pengjiandry.com:7081/api/file/v1/uploadImg"
+        action={ process.env.REACT_APP_SECRET_CODE === 'prod' ? "http://www.pengjiandry.com:7080/api/file/v1/uploadImg" : 'http://localhost:3070/api/file/v1/uploadImg' }
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
