@@ -23,7 +23,7 @@ export default class ArticleStore {
       total: 0,
       page: 1,
       search: '',
-      pageSize: 10,
+      pageSize: 5,
       type: ARTICLE_DOING,
       keyword: '',
       startDate: '',

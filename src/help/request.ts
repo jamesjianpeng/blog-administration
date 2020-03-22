@@ -7,10 +7,16 @@ const env = process.env.REACT_APP_SECRET_CODE || 'beta'
 export const isBeta = env === 'beta'
 export const isProd = env === 'prod'
 export const isRealProd = env === 'realProd'
+export const origin = location.origin
+export const file_url = '/api/file/v1/uploadImg'
 const urlConfig = {
   'beta':  'http://localhost:3070',
-  'prod': 'http://www.pengjiandry.com:7080'
+  'prod': origin,
+  'beta_file': 'http://localhost:3070' + file_url,
+  'prod_file': origin + file_url,
 }
+
+export const fileConfig = urlConfig[`${env}_file`]
 
 const commonHeaders = {
   'beta':  {
