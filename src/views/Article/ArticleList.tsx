@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Input, DatePicker, Tag } from 'antd'
+import { Modal, Input, DatePicker, Tag, Spin } from 'antd'
 import { useStores } from 'src/store'
 import { STORE_ARTICLE, STORE_TAG, ARTICLE_DOING, ARTICLE_DISCARD, ARTICLE_FILE, ARTICLE_TEXT } from 'src/constants'
 import { IPropsBase as IProps, IArticle } from 'src/interface'
@@ -22,6 +22,8 @@ interface IState {
 }
 
 const ArticleList = (props: IProps) => {
+  const [loading, setLoading] = React.useState<boolean>(true)
+
   const [state, setState] = React.useState<IState>({ selectedRowKeys: [] })
 
   const storeArticle = useStores(STORE_ARTICLE)
@@ -37,6 +39,7 @@ const ArticleList = (props: IProps) => {
   }, [storeArticle.list.type])
 
   const initList = () => {
+    setLoading(true)
     storeArticle.getList({
       page: storeArticle.list.page,
       pageSize: storeArticle.list.pageSize,
@@ -45,6 +48,10 @@ const ArticleList = (props: IProps) => {
       startDate: storeArticle.list.startDate,
       endDate: storeArticle.list.endDate,
       tag: storeArticle.list.tag
+    }).then(() => {
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
     })
   }
 
@@ -66,12 +73,17 @@ const ArticleList = (props: IProps) => {
       endDate: dateString[1] || ''
     }
     changeURL(props.history, props.location, time)
+    setLoading(true)
     storeArticle.getList({
       page: 1,
       pageSize: Number(storeArticle.list.pageSize),
       type: storeArticle.list.type,
       keyword: storeArticle.list.keyword,
       ...time
+    }).then(() => {
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
     })
   }
 
@@ -84,6 +96,7 @@ const ArticleList = (props: IProps) => {
       page: 1,
       pageSize: Number(storeArticle.list.pageSize)
     })
+    setLoading(true)
     storeArticle.getList({
       page: 1,
       pageSize: Number(storeArticle.list.pageSize),
@@ -92,11 +105,16 @@ const ArticleList = (props: IProps) => {
       endDate: '',
       keyword,
       tag: ''
+    }).then(() => {
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
     })
   }
 
   const changeTag = (tag: ITag) => {
     changeURL(props.history, props.location, { tag: tag.value })
+    setLoading(true)
     storeArticle.getList({
       page: 1,
       pageSize: Number(storeArticle.list.pageSize),
@@ -105,6 +123,10 @@ const ArticleList = (props: IProps) => {
       endDate: storeArticle.list.endDate,
       keyword: storeArticle.list.keyword,
       tag: tag.value
+    }).then(() => {
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
     })
   }
 
@@ -115,6 +137,7 @@ const ArticleList = (props: IProps) => {
       keyword: '',
       page: 1
     })
+    setLoading(true)
     storeArticle.getList({
       page: 1,
       pageSize: Number(storeArticle.list.pageSize),
@@ -122,6 +145,10 @@ const ArticleList = (props: IProps) => {
       startDate: '',
       endDate: '',
       keyword: storeArticle.list.keyword
+    }).then(() => {
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
     })
   }
 
@@ -189,6 +216,7 @@ const ArticleList = (props: IProps) => {
     onChange: (page: number) => {
       const query: any = { page, pageSize: storeArticle.list.pageSize, keyword: storeArticle.list.search }
       changeURL(props.history, props.location, query)
+      setLoading(true)
       storeArticle.getList({
         page: Number(page),
         pageSize: Number(storeArticle.list.pageSize),
@@ -197,6 +225,10 @@ const ArticleList = (props: IProps) => {
         startDate: storeArticle.list.startDate,
         endDate: storeArticle.list.endDate,
         tag: storeArticle.list.tag
+      }).then(() => {
+        setLoading(false)
+      }).catch(() => {
+        setLoading(false)
       })
     }
   }
@@ -208,113 +240,115 @@ const ArticleList = (props: IProps) => {
   ]
 
   return (
-    <div className="bg-white p-20">
-      <ul className="flex-h-flex-start-center">
-        {
-          tabs.map((item: any) => (
-            <li className={`cursor-pointer p-b-20 m-r-20 normal ${storeArticle.list.type === item.value ? 'active' : ''}`} key={item.value} onClick={() => item.changeTab(item.value)}>{item.text}</li>
-          ))
-        }
-      </ul>
-      <div className="flex-h-flex-start-center">
-        <Input.Search style={{ width: 300 }} value={storeArticle.list.keyword} className="m-b-20 m-r-20" type="text" placeholder="对标题进行搜索" onChange={changeSearch} onSearch={search} />
-      </div>
-      <div className="flex-h-flex-start-center">
-        <RangePicker className="m-b-20" value={rangeDate()} onChange={changeRangeTime} />
-        <div className="m-l-20">
+    <Spin spinning={loading}>
+      <div className="bg-white p-20">
+        <ul className="flex-h-flex-start-center">
           {
-            storeTag.list.data && storeTag.list.data.map((item: ITag) => {
-              return (<Tag
-                key={item.value}
-                onClick={() => changeTag(item)}
-                className="m-b-20"
-                color={(storeArticle.list.tag && item.value && storeArticle.list.tag === item.value) ||
-                  (!storeArticle.list.tag && !item.value) ?
-                  '#333' :
-                  '#999'}>{item.text}</Tag>)
-            })
+            tabs.map((item: any) => (
+              <li className={`cursor-pointer p-b-20 m-r-20 normal ${storeArticle.list.type === item.value ? 'active' : ''}`} key={item.value} onClick={() => item.changeTab(item.value)}>{item.text}</li>
+            ))
           }
+        </ul>
+        <div className="flex-h-flex-start-center">
+          <Input.Search style={{ width: 300 }} value={storeArticle.list.keyword} className="m-b-20 m-r-20" type="text" placeholder="对标题进行搜索" onChange={changeSearch} onSearch={search} />
         </div>
+        <div className="flex-h-flex-start-center">
+          <RangePicker className="m-b-20" value={rangeDate()} onChange={changeRangeTime} />
+          <div className="m-l-20">
+            {
+              storeTag.list.data && storeTag.list.data.map((item: ITag) => {
+                return (<Tag
+                  key={item.value}
+                  onClick={() => changeTag(item)}
+                  className="m-b-20"
+                  color={(storeArticle.list.tag && item.value && storeArticle.list.tag === item.value) ||
+                    (!storeArticle.list.tag && !item.value) ?
+                    '#333' :
+                    '#999'}>{item.text}</Tag>)
+              })
+            }
+          </div>
+        </div>
+        {
+          ARTICLE_DOING === storeArticle.list.type ? (
+            <ArticleDoingTable
+              dataSource={data || []}
+              rowSelection={rowSelection}
+              pagination={pagination}
+              onOperation={
+                (_id: string, { row, status }: { row: IArticle, status: string }, type: string) => {
+                  if (type === 'edit') {
+                    onEdit(_id, row)
+                  }
+                  if (type === 'detail') {
+                    onDetail(_id, row)
+                  }
+                  if (type === 'history') {
+                    onHistory(_id, row)
+                  }
+                  if (type === 'del') {
+                    onDel(_id, row)
+                  }
+                  if (type === 'state') {
+                    onState(_id, row, status)
+                  }
+                }
+              }
+            />
+          ) : null
+        }
+        {
+          ARTICLE_FILE === storeArticle.list.type ? (
+            <ArticleFileTable
+              dataSource={data || []}
+              rowSelection={rowSelection}
+              pagination={pagination}
+              onOperation={
+                (_id: string, { row }: { row: IArticle }, type: string) => {
+                  if (type === 'edit') {
+                    onEdit(_id, row)
+                  }
+                  if (type === 'detail') {
+                    onDetail(_id, row)
+                  }
+                  if (type === 'history') {
+                    onHistory(_id, row)
+                  }
+                  if (type === 'del') {
+                    onDel(_id, row)
+                  }
+                }
+              }
+            />
+          ) : null
+        }
+        {
+          ARTICLE_DISCARD === storeArticle.list.type ? (
+            <ArticleDiscardTable
+              dataSource={data || []}
+              rowSelection={rowSelection}
+              pagination={pagination}
+              onOperation={
+                (_id: string, { row }: { row: IArticle }, type: string) => {
+                  if (type === 'edit') {
+                    onEdit(_id, row)
+                  }
+                  if (type === 'detail') {
+                    onDetail(_id, row)
+                  }
+                  if (type === 'history') {
+                    onHistory(_id, row)
+                  }
+                  if (type === 'del') {
+                    onDel(_id, row)
+                  }
+                }
+              }
+            />
+          ) : null
+        }
       </div>
-      {
-        ARTICLE_DOING === storeArticle.list.type ? (
-          <ArticleDoingTable
-            dataSource={data || []}
-            rowSelection={rowSelection}
-            pagination={pagination}
-            onOperation={
-              (_id: string, { row, status }: { row: IArticle, status: string }, type: string) => {
-                if (type === 'edit') {
-                  onEdit(_id, row)
-                }
-                if (type === 'detail') {
-                  onDetail(_id, row)
-                }
-                if (type === 'history') {
-                  onHistory(_id, row)
-                }
-                if (type === 'del') {
-                  onDel(_id, row)
-                }
-                if (type === 'state') {
-                  onState(_id, row, status)
-                }
-              }
-            }
-          />
-        ) : null
-      }
-      {
-        ARTICLE_FILE === storeArticle.list.type ? (
-          <ArticleFileTable
-            dataSource={data || []}
-            rowSelection={rowSelection}
-            pagination={pagination}
-            onOperation={
-              (_id: string, { row }: { row: IArticle }, type: string) => {
-                if (type === 'edit') {
-                  onEdit(_id, row)
-                }
-                if (type === 'detail') {
-                  onDetail(_id, row)
-                }
-                if (type === 'history') {
-                  onHistory(_id, row)
-                }
-                if (type === 'del') {
-                  onDel(_id, row)
-                }
-              }
-            }
-          />
-        ) : null
-      }
-      {
-        ARTICLE_DISCARD === storeArticle.list.type ? (
-          <ArticleDiscardTable
-            dataSource={data || []}
-            rowSelection={rowSelection}
-            pagination={pagination}
-            onOperation={
-              (_id: string, { row }: { row: IArticle }, type: string) => {
-                if (type === 'edit') {
-                  onEdit(_id, row)
-                }
-                if (type === 'detail') {
-                  onDetail(_id, row)
-                }
-                if (type === 'history') {
-                  onHistory(_id, row)
-                }
-                if (type === 'del') {
-                  onDel(_id, row)
-                }
-              }
-            }
-          />
-        ) : null
-      }
-    </div>
+    </Spin>
   );
 }
 
