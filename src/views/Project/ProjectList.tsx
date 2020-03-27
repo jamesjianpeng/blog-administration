@@ -14,11 +14,12 @@ interface IProps extends IPropsBase {
 
 const FEList = (props: IProps) => {
     const storeProject = useStores(STORE_PROJECT)
+    
     React.useEffect(() => {
       storeProject.getList({
         name: props.name,
-        page: 1,
-        pageSize: 10
+        page: storeProject.list.page,
+        pageSize: storeProject.list.pageSize
       })
     }, [storeProject.list.page])
 
@@ -40,7 +41,6 @@ const FEList = (props: IProps) => {
     }
 
     const changeRangeTime = (date: any, dateString: any) => {
-      console.log(date, dateString);
       const time = {
         startDate: dateString[0] || '',
         endDate: dateString[1] || ''
