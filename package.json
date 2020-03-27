@@ -28,7 +28,7 @@
     "start:rewired": "REACT_APP_SECRET_CODE=beta react-app-rewired start --scripts-version react-scripts-ts",
     "start": "cross-env REACT_APP_SECRET_CODE=beta react-scripts-ts start",
     "start:prod": "cross-env REACT_APP_SECRET_CODE=prod react-scripts-ts start",
-    "build": "exit",
+    "build": "echo 'noop'",
     "build:local": "cross-env GENERATE_SOURCEMAP=false REACT_APP_SECRET_CODE=prod react-scripts-ts build --scripts-version react-scripts-ts",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"

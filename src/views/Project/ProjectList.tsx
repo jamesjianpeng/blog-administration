@@ -47,6 +47,7 @@ const FEList = (props: IProps) => {
       }
       changeURL(props.history, props.location, time)
       storeProject.getList({
+        name: props.name,
         page: 1,
         pageSize: Number(storeProject.list.pageSize),
         ...time
