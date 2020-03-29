@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "https://smartblog.pengjiandry.com/administration/",
   "dependencies": {
     "@ant-design/icons": "^4.0.2",
     "@antv/g2-brush": "0.0.2",
