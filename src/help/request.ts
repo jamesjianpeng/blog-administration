@@ -8,11 +8,12 @@ export const isBeta = env === 'beta'
 export const isProd = env === 'prod'
 export const isRealProd = env === 'realProd'
 export const origin = location.origin
+export const betaUrl = 'https://smartblog.pengjiandry.com' || 'http://localhost:3070'
 export const file_url = '/api/file/v1/uploadImg'
 const urlConfig = {
-  'beta':  'http://localhost:3070',
+  'beta': betaUrl ,
   'prod': origin,
-  'beta_file': 'http://localhost:3070' + file_url,
+  'beta_file': betaUrl + file_url,
   'prod_file': origin + file_url,
 }
 

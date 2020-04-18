@@ -35,7 +35,7 @@ const ArticleList = (props: IProps) => {
       ...params
     })
     initList()
-    storeTag.getList()
+    storeTag.getList({pageSize: 1000})
   }, [storeArticle.list.type])
 
   const initList = () => {
